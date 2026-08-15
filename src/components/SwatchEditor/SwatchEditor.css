@@ -1,0 +1,132 @@
+/* Anchored popover, positioned in JS through --popover-x / --popover-y. It
+   stays hidden until the first measurement lands so it never flashes at the
+   top-left corner. */
+.swatch-editor {
+  position: fixed;
+  left: var(--popover-x);
+  top: var(--popover-y);
+  z-index: var(--z-modal);
+  width: 268px;
+  padding: var(--space-3);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  visibility: hidden;
+
+  &.is-placed {
+    visibility: visible;
+  }
+
+  .editor-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .editor-preview {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    background: var(--preview-color);
+    border-radius: var(--radius-sm);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+  }
+
+  .editor-title {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-right: auto;
+    line-height: 1.25;
+  }
+
+  .editor-name {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .editor-position {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+  }
+
+  .editor-inputs {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .editor-hex {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: var(--space-1-5) var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+  }
+
+  .editor-hex.is-rejected {
+    border-color: var(--color-error);
+  }
+
+  .editor-inputs input[type='color'] {
+    flex-shrink: 0;
+    width: 38px;
+    height: 30px;
+  }
+
+  .editor-note {
+    margin-top: var(--space-2);
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+  }
+
+  .editor-channels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: var(--space-3) 0;
+  }
+
+  .editor-channel {
+    display: grid;
+    grid-template-columns: 62px minmax(0, 1fr) 44px;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .channel-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+  }
+
+  .channel-value {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .editor-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .editor-actions .button {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: var(--space-1-5) var(--space-2);
+    font-size: var(--font-size-xs);
+  }
+
+  .editor-actions .button.is-destructive:hover:not(:disabled) {
+    color: var(--color-error);
+    border-color: var(--color-error);
+  }
+}

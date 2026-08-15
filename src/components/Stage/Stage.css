@@ -1,0 +1,112 @@
+/* Toolbar, scrolling canvas, footer. The canvas owns the preview background and
+   publishes the ink, backdrop and ring tokens the grid reads, so a white or
+   black preview restyles labels, sticky gutters and the base-row ring without
+   any component knowing which background is active. */
+.stage {
+  grid-area: stage;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--stage-bg);
+
+  .stage-canvas {
+    --grid-backdrop: var(--stage-bg);
+    --grid-ink: var(--text-secondary);
+    --grid-ink-strong: var(--text-primary);
+    --grid-line: var(--border-default);
+
+    --canvas-inset: var(--space-6);
+
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    background: var(--grid-backdrop);
+  }
+
+  /* The inset belongs to the grid, not to the scroll container. Padding on a
+     scrollport leaves a strip that sticky cells cannot reach, and scrolled
+     swatches slide through it beside the pinned label column. */
+  .palette-empty {
+    padding: var(--canvas-inset);
+  }
+
+  &[data-preview='white'] .stage-canvas {
+    --grid-backdrop: #ffffff;
+    --grid-ink: #4a4a5e;
+    --grid-ink-strong: #101018;
+    --grid-line: rgba(0, 0, 0, 0.2);
+    --grid-ring: rgba(0, 0, 0, 0.3);
+  }
+
+  &[data-preview='black'] .stage-canvas {
+    --grid-backdrop: #000000;
+    --grid-ink: #a0a0b4;
+    --grid-ink-strong: #f2f2f7;
+    --grid-line: rgba(255, 255, 255, 0.22);
+    --grid-ring: rgba(255, 255, 255, 0.4);
+  }
+
+  /* Sticky gutters need one flat color to sit on, so the checkerboard is the
+     canvas background while --grid-backdrop stays the solid base tone. */
+  &[data-preview='checker'] .stage-canvas {
+    --grid-backdrop: var(--checker-base);
+    background:
+      repeating-conic-gradient(
+        var(--checker-square) 0% 25%,
+        var(--checker-base) 0% 50%
+      )
+      0 0 / 18px 18px;
+  }
+
+  .stage-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex: 0 0 auto;
+    min-height: var(--footer-height);
+    padding: var(--space-1-5) var(--space-4);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-default);
+  }
+
+  .stage-tally {
+    min-width: 0;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .footer-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--space-2);
+  }
+}
+
+@media (max-width: 899.98px) {
+  .stage .stage-canvas {
+    --canvas-inset: var(--space-4);
+  }
+
+  .stage .stage-footer {
+    padding: var(--space-1-5) var(--space-3);
+  }
+}
+
+@media (max-width: 479.98px) {
+  .stage .stage-canvas {
+    --canvas-inset: var(--space-3);
+  }
+
+  /* The tally is the first thing to go: the two buttons are the reason the bar
+     is there at all. */
+  .stage .stage-tally {
+    font-size: var(--font-size-xs);
+  }
+}
