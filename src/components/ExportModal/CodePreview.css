@@ -1,0 +1,23 @@
+.code-preview {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  .code-block {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 280px;
+    max-height: 100%;
+    padding: var(--space-4);
+    overflow: auto;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    line-height: 1.65;
+    color: var(--text-primary);
+    background: var(--bg-base);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    white-space: pre;
+    tab-size: 2;
+  }
+}

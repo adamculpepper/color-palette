@@ -1,0 +1,255 @@
+/* Every rule is scoped from the backdrop so nothing here escapes into the app
+   shell; CSS files are global in Vite. */
+.export-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background: var(--scrim);
+
+  .export-modal {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    width: 100%;
+    max-width: 1060px;
+    max-height: 100%;
+    overflow: hidden;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .modal-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-5) var(--space-4);
+  }
+
+  .modal-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .modal-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
+  .format-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    padding: 0 var(--space-5) var(--space-4);
+  }
+
+  .pill-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .pill-group-label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1-5);
+  }
+
+  .format-pill {
+    padding: var(--space-1-5) var(--space-3);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-pill);
+    transition: color var(--transition-fast), background var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .format-pill:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+    border-color: var(--border-strong);
+  }
+
+  .format-pill:active {
+    background: var(--bg-active);
+  }
+
+  .format-pill.is-selected {
+    color: var(--accent-ink);
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+  }
+
+  .format-pill.is-selected:hover {
+    color: var(--accent-ink);
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+
+  .modal-body {
+    display: grid;
+    grid-template-columns: 264px minmax(0, 1fr);
+    gap: var(--space-5);
+    min-height: 0;
+    padding: 0 var(--space-5);
+  }
+
+  .options-pane {
+    min-height: 0;
+    padding-right: var(--space-2);
+    overflow-y: auto;
+  }
+
+  .options-pane .control:last-child {
+    margin-bottom: 0;
+  }
+
+  .preview-pane {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .preview-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    min-height: 280px;
+    padding: var(--space-3);
+    overflow: hidden;
+    background: var(--bg-base);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  .canvas-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .preview-canvas,
+  .preview-image {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+  }
+
+  .footer-actions {
+    display: flex;
+    gap: var(--space-2);
+  }
+}
+
+/* Narrow screens stack the options above the preview and hand the scrolling to
+   the body, so the format pills stay pinned at the top and both action buttons
+   stay pinned at the bottom however long the preview runs. */
+@media (max-width: 859.98px) {
+  .export-modal-backdrop {
+    padding: var(--space-3);
+
+    .modal-head {
+      padding: var(--space-4) var(--space-4) var(--space-3);
+    }
+
+    .format-pills {
+      gap: var(--space-2) var(--space-4);
+      padding: 0 var(--space-4) var(--space-3);
+    }
+
+    .modal-body {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-4);
+      padding: 0 var(--space-4);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    /* One scroller, not two nested ones. */
+    .options-pane {
+      padding-right: 0;
+      overflow: visible;
+    }
+
+    .preview-box,
+    .code-block {
+      min-height: 200px;
+    }
+
+    .modal-footer {
+      margin-top: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+    }
+  }
+}
+
+/* Phone width: the pill groups stack under their own headings and the two
+   actions split the footer instead of crowding the file size readout. */
+@media (max-width: 559.98px) {
+  .export-modal-backdrop {
+    padding: var(--space-2);
+
+    .pill-group {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-1);
+    }
+
+    .modal-footer {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: var(--space-2);
+    }
+
+    .footer-meta {
+      flex: 1 0 100%;
+    }
+
+    .footer-actions {
+      flex: 1 1 auto;
+    }
+
+    .footer-actions .button {
+      flex: 1 1 auto;
+    }
+  }
+}
