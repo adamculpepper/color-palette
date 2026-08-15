@@ -1,0 +1,46 @@
+/* Parked clear of the stage footer: the quick Copy CSS and PNG buttons live
+   down there, and a toast confirming a copy must not cover the button that
+   would repeat it. */
+.toast-region {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--footer-height) + var(--space-4));
+  z-index: var(--z-toast);
+  display: flex;
+  justify-content: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+
+  .toast {
+    max-width: calc(100vw - var(--space-8));
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--bg-active);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    animation: toast-rise var(--transition-med) ease-out;
+  }
+}
+
+@keyframes toast-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-region .toast {
+    animation: none;
+  }
+}

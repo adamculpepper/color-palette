@@ -1,0 +1,73 @@
+/* Theme-independent design tokens. Color values that change between light and
+   dark live in themes.css; everything here holds in both. */
+:root {
+  /* Spacing — the half steps exist so tight component internals (chip gutters,
+     pill rows, switch insets) stay on the same scale as everything else. */
+  --space-0-5: 2px;
+  --space-1: 4px;
+  --space-1-5: 6px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* Typography — system stack only, no webfonts and no CDN */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', 'JetBrains Mono', Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 13px;
+  --font-size-md: 15px;
+  --font-size-lg: 17px;
+  --font-size-xl: 22px;
+  --font-size-2xl: 28px;
+
+  /* Accent — violet, chosen to stay neutral against every generated swatch.
+     --accent-strong is the only accent surface that carries white label text
+     (5.6:1 contrast); --accent itself is for rings, borders and tints. */
+  --accent: #7c5cff;
+  --accent-strong: #6a45f5;
+  /* The lit state of --accent-strong. Stops short of --accent itself, which is
+     4.35:1 under white label text and would fail on hover. */
+  --accent-hover: #7a58fa;
+  --accent-dim: #5b43b8;
+  --accent-ink: #ffffff;
+  --accent-glow: rgba(124, 92, 255, 0.24);
+  --accent-bg: rgba(124, 92, 255, 0.11);
+
+  /* Transitions */
+  --transition-fast: 100ms ease;
+  --transition-med: 200ms ease;
+  --transition-slow: 350ms ease;
+
+  /* Layout */
+  --header-height: 54px;
+  --sidebar-width: 304px;
+  --footer-height: 44px;
+
+  /* Z-layers. The drawer sits above the sticky header it slides out from and
+     below the toast, so a copy confirmation still reads while it is open. */
+  --z-stage: 1;
+  --z-sticky: 5;
+  --z-overlay: 10;
+  --z-menu: 30;
+  --z-drawer: 40;
+  --z-toast: 60;
+  --z-modal: 100;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-med: 0ms;
+    --transition-slow: 0ms;
+  }
+}

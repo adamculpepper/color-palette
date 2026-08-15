@@ -1,0 +1,104 @@
+.app-header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  height: var(--header-height);
+  padding: 0 var(--space-4);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-default);
+
+  .header-lead {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .brand-logo {
+    align-self: center;
+    color: var(--accent-text);
+  }
+
+  /* Shrinks and ellipsizes rather than disappearing at a breakpoint: the
+     actions all have fixed widths, so whatever is left over is the wordmark's
+     and there is no width where the header has to drop its own name. */
+  .brand-name {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .brand-version {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--space-2);
+  }
+
+  .action-divider {
+    width: 1px;
+    height: 24px;
+    margin: 0 var(--space-1);
+    background: var(--border-default);
+  }
+}
+
+/* The header keeps its footprint at every width; what changes is how much of
+   each control is spelled out. */
+@media (max-width: 899.98px) {
+  .app-header {
+    gap: var(--space-2);
+    padding: 0 var(--space-3);
+
+    .header-actions {
+      gap: var(--space-1-5);
+    }
+  }
+}
+
+@media (max-width: 759.98px) {
+  .app-header {
+    .brand-version {
+      display: none;
+    }
+
+    .action-label {
+      display: none;
+    }
+
+    /* Label gone, so the button collapses to the same square as its neighbours
+       instead of keeping the padding it no longer needs. */
+    .header-actions .button {
+      width: 34px;
+      padding: var(--space-1-5);
+    }
+  }
+}
+
+@media (max-width: 419.98px) {
+  .app-header {
+    padding: 0 var(--space-2);
+
+    .brand-name {
+      font-size: var(--font-size-md);
+    }
+  }
+}

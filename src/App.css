@@ -1,0 +1,20 @@
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  grid-template-rows: var(--header-height) minmax(0, 1fr);
+  grid-template-areas:
+    'header header'
+    'sidebar stage';
+  height: 100%;
+}
+
+/* Below the breakpoint the sidebar leaves the grid entirely and becomes a drawer
+   over the stage, so the shell keeps its two rows and only the stage scrolls. */
+@media (max-width: 899.98px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'header'
+      'stage';
+  }
+}

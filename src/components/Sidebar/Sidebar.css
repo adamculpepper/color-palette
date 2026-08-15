@@ -1,0 +1,105 @@
+.sidebar {
+  grid-area: sidebar;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-default);
+
+  .sidebar-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .toolbar-label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+  }
+
+  .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .toggle-all {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .toggle-all:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+    border-color: var(--border-strong);
+  }
+
+  .toggle-all:active {
+    background: var(--bg-active);
+  }
+
+  .drawer-close {
+    width: 28px;
+    min-height: 28px;
+    padding: var(--space-1);
+  }
+}
+
+/* ---- Drawer ---- */
+
+/* The scrim is the click-away surface as well as the dimmer, so it covers the
+   whole viewport and the panel sits inside it. */
+.drawer-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-drawer);
+  background: var(--scrim);
+  animation: drawer-scrim-in var(--transition-med) ease-out;
+}
+
+.sidebar.is-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(var(--sidebar-width), calc(100vw - var(--space-10)));
+  border-right: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-lg);
+  animation: drawer-slide-in var(--transition-med) ease-out;
+}
+
+/* Both keyframes are timed by a token, so the reduced-motion override in
+   variables.css collapses them to nothing without a second rule here. */
+@keyframes drawer-slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes drawer-scrim-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

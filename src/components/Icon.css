@@ -1,0 +1,9 @@
+/* Sizing lives here rather than in the FontAwesome stylesheet: the size prop
+   arrives as an inline custom property so the rule stays in CSS. */
+.app-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--icon-size, 16px);
+  height: var(--icon-size, 16px);
+  vertical-align: -0.125em;
+}
