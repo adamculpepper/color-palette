@@ -1,0 +1,142 @@
+/* Two groups, one row where there is room. The groups are their own flex lines
+   so a narrow viewport breaks the toolbar between them rather than orphaning a
+   single button, and the palette actions stay together either way. */
+.stage-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  flex: 0 0 auto;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-default);
+
+  .toolbar-line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .palette-actions {
+    margin-left: auto;
+  }
+
+  .source-switch {
+    display: flex;
+    padding: var(--space-0-5);
+    gap: var(--space-0-5);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+
+    button {
+      padding: var(--space-1-5) var(--space-3);
+      font-size: var(--font-size-xs);
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-radius: 3px;
+      transition: color var(--transition-fast), background var(--transition-fast);
+    }
+
+    button:hover:not(:disabled) {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+    }
+
+    button:active:not(:disabled) {
+      background: var(--bg-active);
+    }
+
+    button.is-selected {
+      color: var(--accent-ink);
+      background: var(--accent-strong);
+    }
+
+    button.is-selected:hover:not(:disabled) {
+      color: var(--accent-ink);
+      background: var(--accent-hover);
+    }
+  }
+
+  .count-stepper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-0-5) var(--space-0-5) var(--space-0-5) var(--space-3);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+  }
+
+  .stepper-label {
+    margin-right: var(--space-1);
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+  }
+
+  .stepper-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--text-secondary);
+    background: var(--bg-hover);
+    border: 1px solid var(--border-subtle);
+    border-radius: 3px;
+    transition: color var(--transition-fast), background var(--transition-fast);
+  }
+
+  .stepper-button:hover:not(:disabled) {
+    color: var(--text-primary);
+    background: var(--bg-active);
+  }
+
+  .stepper-button:active:not(:disabled) {
+    background: var(--bg-active);
+    border-color: var(--border-default);
+  }
+
+  .stepper-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .stepper-value {
+    min-width: 24px;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .custom-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+}
+
+/* Between the sidebar breakpoint and full width the reorder buttons keep their
+   icons and drop their words; below it they fold into the More menu instead. */
+@media (max-width: 1180px) {
+  .stage-toolbar .palette-actions .button-label {
+    display: none;
+  }
+}
+
+@media (max-width: 899.98px) {
+  .stage-toolbar {
+    padding: var(--space-3);
+
+    .palette-actions {
+      margin-left: 0;
+    }
+
+    .palette-actions .button-label {
+      display: inline;
+    }
+  }
+}

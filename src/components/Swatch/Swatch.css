@@ -1,0 +1,80 @@
+/* Sizing and shape arrive as custom properties from the grid, so one swatch
+   rule serves every size the Display group can ask for. */
+.swatch {
+  min-width: 0;
+
+  .swatch-block {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: var(--swatch-size);
+    /* The contrast badge paints in currentColor, so the block carries the ink
+       that reads against its own fill. */
+    color: var(--swatch-ink);
+    background: var(--swatch-color);
+    border-radius: var(--swatch-radius);
+    /* The base rung reads as base by being taller and labeled; it carries no
+       standing ring. A ring appears on hover (--grid-ring, re-published by the
+       stage per preview background so it holds contrast everywhere) and turns
+       accent when the swatch is selected. */
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .swatch-block:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16), 0 0 0 2px var(--grid-ring);
+  }
+
+  .swatch-block:active {
+    transform: translateY(0);
+    cursor: grabbing;
+  }
+
+  /* The caption sits inside the block at its bottom edge, painted in the ink
+     that reads against the swatch's own fill. */
+  .swatch-caption {
+    min-width: 0;
+    max-width: 100%;
+    padding: 0 var(--space-1) var(--space-1-5);
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .swatch-name,
+  .swatch-value {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+    overflow: hidden;
+  }
+
+  /* The base block is the tallest cell, so its value can take a third line. */
+  .swatch-value {
+    -webkit-line-clamp: 3;
+  }
+
+  .swatch-name {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+  }
+
+  .swatch-value {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    opacity: 0.92;
+  }
+
+  &.is-selected .swatch-block {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16), 0 0 0 3px var(--accent);
+  }
+
+  &.is-drop-target .swatch-block {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16), 0 0 0 3px var(--accent-glow);
+    transform: translateY(-2px);
+  }
+}

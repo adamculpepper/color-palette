@@ -1,0 +1,103 @@
+/* Color sets keyed off [data-theme] on <html>. AppContext writes the attribute,
+   seeded from localStorage then prefers-color-scheme.
+
+   Text tokens are tuned so every one of them clears WCAG 4.5:1 on the surfaces
+   it actually paints on — tertiary reaches --bg-elevated (the popovers), and
+   --grid-ink reaches the checkerboard base, which is the darkest ground any
+   label sits on. --accent-text is a separate token from --accent for exactly
+   that reason: the ring colour is not legible as body text at either end. */
+[data-theme="dark"] {
+  /* Backgrounds — a soft charcoal ramp, deliberately a notch up from black */
+  --bg-base: #17171f;
+  --bg-surface: #1f1f28;
+  --bg-elevated: #282833;
+  --bg-hover: #31313e;
+  --bg-active: #3c3c4b;
+
+  /* Borders */
+  --border-subtle: #31313d;
+  --border-default: #444453;
+  --border-strong: #626278;
+
+  /* Text */
+  --text-primary: #f2f2f7;
+  --text-secondary: #ababc2;
+  --text-tertiary: #9b9bb2;
+  --text-disabled: #5d5d68;
+  --text-inverse: #17171f;
+
+  /* Accent as ink rather than as a surface */
+  --accent-text: #b1a1ff;
+
+  /* Status */
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+
+  /* Stage backdrop the palette sits on */
+  --stage-bg: #1b1b24;
+
+  /* Preview backgrounds (previewBackground param) */
+  --checker-base: #3a3a46;
+  --checker-square: #272731;
+
+  /* The ring that marks the base row. Light on dark grounds, and overridden per
+     preview background where the ground flips. */
+  --grid-ring: rgba(255, 255, 255, 0.34);
+
+  /* Modal and drawer scrim */
+  --scrim: rgba(0, 0, 0, 0.62);
+
+  /* Scrollbar */
+  --scrollbar-track: #1f1f28;
+  --scrollbar-thumb: #444453;
+  --scrollbar-thumb-hover: #626278;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="light"] {
+  --bg-base: #d9d9e2;
+  --bg-surface: #e6e6ef;
+  --bg-elevated: #f2f2f8;
+  --bg-hover: #d2d2e0;
+  --bg-active: #c1c1d3;
+
+  --border-subtle: #c8c8d8;
+  --border-default: #a8a8bf;
+  --border-strong: #8484a0;
+
+  --text-primary: #14142a;
+  --text-secondary: #3c3c55;
+  --text-tertiary: #5a5a70;
+  --text-disabled: #90909f;
+  --text-inverse: #f2f2f7;
+
+  --accent-text: #5433c4;
+
+  --color-success: #15803d;
+  --color-warning: #96400a;
+  --color-error: #b91c1c;
+
+  --stage-bg: #cbcbda;
+
+  --checker-base: #ffffff;
+  --checker-square: #cfcfdb;
+
+  --grid-ring: rgba(20, 20, 42, 0.38);
+
+  --scrim: rgba(20, 20, 34, 0.45);
+
+  --scrollbar-track: #d2d2e0;
+  --scrollbar-thumb: #a8a8bf;
+  --scrollbar-thumb-hover: #8484a0;
+
+  /* Deeper than a straight inversion: on a mid-tone ground a 12% shadow reads
+     as dirt rather than as lift, so the light theme carries its own ramp. */
+  --shadow-sm: 0 1px 2px rgba(20, 20, 42, 0.16);
+  --shadow-md: 0 6px 18px rgba(20, 20, 42, 0.2);
+  --shadow-lg: 0 14px 40px rgba(20, 20, 42, 0.26);
+}

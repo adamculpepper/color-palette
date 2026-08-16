@@ -1,0 +1,320 @@
+/* One CSS grid holds the whole palette. Rows are wrapped in .grid-row elements
+   that are display: contents, so the markup keeps its per-row meaning while
+   every cell still lines up on the single parent grid — which is also what lets
+   individual cells be sticky. */
+.palette-grid {
+  --swatch-size: var(--swatch-size-setting);
+  --step-size: calc(var(--swatch-size) * 0.6);
+  --label-size: 66px;
+  --swatch-radius: var(--radius-md);
+  --step-radius: var(--radius-sm);
+  --cell-gap: 3px;
+
+  display: grid;
+  grid-template-columns: var(--grid-columns);
+  align-items: stretch;
+  width: max-content;
+  min-width: 100%;
+  /* The stage publishes the inset; carrying it here rather than on the scroll
+     container is what lets the sticky gutters reach the true canvas edge. */
+  padding: var(--canvas-inset);
+
+  &[data-shape='square'] {
+    --swatch-radius: 0;
+    --step-radius: 0;
+  }
+
+  &[data-shape='circle'] {
+    --swatch-radius: 50%;
+    --step-radius: 50%;
+    /* A circle needs equal sides. Step circles run at 72% of the base diameter
+       (up from the rectangular 60% height) so a hex still fits on one line. */
+    --step-size: calc(var(--swatch-size) * 0.72);
+  }
+
+  &[data-orientation='columns'] {
+    column-gap: var(--space-2);
+    row-gap: var(--cell-gap);
+  }
+
+  &[data-orientation='rows'] {
+    --label-size: 112px;
+    column-gap: var(--cell-gap);
+    row-gap: var(--space-4);
+  }
+
+  .grid-row {
+    display: contents;
+  }
+
+  /* ---- Ladder cells ---- */
+  .step-cell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding: 0 var(--space-1-5);
+    color: var(--cell-ink);
+    background: var(--cell-color);
+    border-radius: var(--step-radius);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14);
+    transition: transform var(--transition-fast);
+  }
+
+  .step-cell:hover {
+    transform: scale(1.04);
+    z-index: 1;
+  }
+
+  .step-cell:active {
+    transform: scale(0.97);
+  }
+
+  /* Long units (rgb(), oklch()) wrap at their own spaces onto up to three
+     centered lines; only past that does the label ellipsize. Hex never wraps. */
+  .cell-label {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    line-height: 1.3;
+    text-align: center;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    opacity: 0.92;
+  }
+
+  .contrast-badge {
+    position: absolute;
+    top: var(--space-0-5);
+    right: var(--space-1);
+    padding: 0 var(--space-1);
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 13px;
+    border: 1px solid currentColor;
+    border-radius: var(--radius-pill);
+    opacity: 0.7;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Repeated hex: the ladder has run out of range rather than produced a new
+     color, and the badge says so instead of showing a silent duplicate. */
+  .collapsed-marker {
+    position: absolute;
+    bottom: var(--space-0-5);
+    left: var(--space-1);
+    opacity: 0.55;
+  }
+
+  /* The copy affordance: appears on hover and keyboard focus so a cell reads
+     as "click me to copy" without permanent clutter. */
+  .copy-hint {
+    position: absolute;
+    right: var(--space-1);
+    bottom: var(--space-0-5);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .step-cell:hover .copy-hint,
+  .step-cell:focus-visible .copy-hint {
+    opacity: 0.85;
+  }
+
+  /* ---- Gutters ---- */
+  .step-label-cell,
+  .color-label-cell {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    color: var(--grid-ink);
+    white-space: nowrap;
+  }
+
+  .step-label-cell {
+    justify-content: flex-end;
+    padding-right: var(--space-2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+  }
+
+  .step-direction {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--grid-ink);
+    opacity: 0.7;
+  }
+
+  .step-label-cell.is-base-label {
+    font-weight: 700;
+    color: var(--grid-ink-strong);
+  }
+
+  .color-label-cell {
+    padding-right: var(--space-2);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    color: var(--grid-ink-strong);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ---- Columns orientation: colors run across, ladder runs down ---- */
+  &[data-orientation='columns'] {
+    .step-cell {
+      height: var(--step-size);
+    }
+
+    /* The label gutter holds its ground during horizontal scroll. The offset
+       shadow paints the column gap in the same backdrop so nothing slides
+       through the seam. */
+    .step-label-cell {
+      position: sticky;
+      left: 0;
+      z-index: var(--z-sticky);
+      background: var(--grid-backdrop);
+      box-shadow: var(--space-2) 0 0 var(--grid-backdrop);
+    }
+
+    .is-base-row > * {
+      position: sticky;
+      top: 0;
+      z-index: calc(var(--z-sticky) + 1);
+      background: var(--grid-backdrop);
+      box-shadow: 0 var(--cell-gap) 0 var(--grid-backdrop);
+    }
+
+    .is-base-row > .step-label-cell {
+      z-index: calc(var(--z-sticky) + 2);
+      box-shadow: var(--space-2) 0 0 var(--grid-backdrop);
+    }
+  }
+
+  /* ---- Rows orientation: one color per row, base column wider ---- */
+  &[data-orientation='rows'] {
+    .step-cell {
+      min-height: var(--step-size);
+    }
+
+    .swatch-block {
+      height: var(--step-size);
+    }
+
+    .step-label-cell.is-column-label {
+      justify-content: center;
+      padding: 0 0 var(--space-1);
+
+      .step-label {
+        align-items: center;
+      }
+    }
+
+    .color-label-cell,
+    .is-header-row > * {
+      position: sticky;
+      background: var(--grid-backdrop);
+    }
+
+    .color-label-cell {
+      left: 0;
+      z-index: var(--z-sticky);
+      box-shadow: var(--cell-gap) 0 0 var(--grid-backdrop);
+    }
+
+    .is-header-row > * {
+      top: 0;
+      z-index: calc(var(--z-sticky) + 1);
+    }
+
+    .is-header-row > .corner-cell {
+      left: 0;
+      z-index: calc(var(--z-sticky) + 2);
+    }
+  }
+
+  /* ---- Circle shape: every cell gets equal sides, or it is not a circle.
+     Sits after the orientation blocks so its geometry wins on source order. ---- */
+  &[data-shape='circle'] {
+    .step-cell {
+      width: var(--step-size);
+      height: var(--step-size);
+      justify-self: center;
+      align-self: center;
+      padding: 0 var(--space-1);
+    }
+
+    /* The square corners of the hit box fall outside the curve, so the corner
+       badges move inward to stay on the circle. */
+    .copy-hint {
+      right: 16%;
+      bottom: 10%;
+    }
+
+    .collapsed-marker {
+      left: 16%;
+      bottom: 10%;
+    }
+
+    .contrast-badge {
+      top: 10%;
+      right: 14%;
+    }
+  }
+
+  /* In rows orientation the base column is wider than the block is tall, so the
+     base needs its own equal sides; in columns it is already square. */
+  &[data-orientation='rows'][data-shape='circle'] .swatch-block {
+    width: var(--step-size);
+    height: var(--step-size);
+    margin-inline: auto;
+  }
+}
+
+.palette-empty {
+  max-width: 40ch;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* Swatches shrink before the grid starts scrolling sideways, so a phone shows
+   more of the palette at once. The slider value stays the ceiling — nothing here
+   makes a swatch bigger than the Display group asked for. */
+@media (max-width: 899.98px) {
+  .palette-grid {
+    --swatch-size: min(var(--swatch-size-setting), 76px);
+  }
+}
+
+@media (max-width: 719.98px) {
+  .palette-grid {
+    --swatch-size: min(var(--swatch-size-setting), 62px);
+  }
+}
+
+@media (max-width: 479.98px) {
+  .palette-grid {
+    --swatch-size: min(var(--swatch-size-setting), 52px);
+    --label-size: 44px;
+  }
+
+  /* The 44px gutter fits the percent or the word, not both. */
+  .palette-grid .step-direction {
+    display: none;
+  }
+
+  .palette-grid[data-orientation='rows'] {
+    --label-size: 80px;
+  }
+}
