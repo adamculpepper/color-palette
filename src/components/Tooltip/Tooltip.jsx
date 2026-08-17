@@ -2,11 +2,13 @@ import { cloneElement, useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import './Tooltip.css'
 
-// Wraps a single element and shows a styled tooltip above it on hover or focus.
+// Wraps a single element and shows a styled tooltip above it on hover or focus,
+// flipping below when the anchor sits too close to the top of the viewport.
 // Renders into document.body through a portal so scrolling containers and
 // `overflow: hidden` ancestors can never clip it.
 
 const EDGE_MARGIN = 8
+const ANCHOR_GAP = 8
 
 export default function Tooltip({ label, children }) {
   const anchorRef = useRef(null)
@@ -17,14 +19,20 @@ export default function Tooltip({ label, children }) {
     const anchor = anchorRef.current
     if (!anchor) return
     const rect = anchor.getBoundingClientRect()
-    setPosition({ x: rect.left + rect.width / 2, y: rect.top })
+    setPosition({
+      x: rect.left + rect.width / 2,
+      top: rect.top,
+      bottom: rect.bottom,
+      placement: 'above',
+    })
   }
 
   const hide = () => setPosition(null)
 
-  // The bubble is centred on its anchor, which pushes it off screen when the
-  // anchor sits near an edge — so once it has a measured width, it is pulled
-  // back inside the viewport before the browser paints it.
+  // The bubble is centred above its anchor, which pushes it off screen when the
+  // anchor sits near an edge — so once it has measured dimensions, it is pulled
+  // back inside the viewport (and flipped underneath a header-height anchor)
+  // before the browser paints it.
   useLayoutEffect(() => {
     if (!position) return
     const bubble = bubbleRef.current
@@ -34,8 +42,10 @@ export default function Tooltip({ label, children }) {
       Math.max(position.x, half + EDGE_MARGIN),
       window.innerWidth - half - EDGE_MARGIN,
     )
-    if (Math.abs(clamped - position.x) > 0.5) {
-      setPosition((current) => (current ? { ...current, x: clamped } : current))
+    const fitsAbove = position.top - bubble.offsetHeight - ANCHOR_GAP >= EDGE_MARGIN
+    const placement = fitsAbove ? 'above' : 'below'
+    if (Math.abs(clamped - position.x) > 0.5 || placement !== position.placement) {
+      setPosition((current) => (current ? { ...current, x: clamped, placement } : current))
     }
   }, [position])
 
@@ -65,10 +75,13 @@ export default function Tooltip({ label, children }) {
       {position &&
         createPortal(
           <div
-            className="tooltip"
+            className={position.placement === 'below' ? 'tooltip is-below' : 'tooltip'}
             role="tooltip"
             ref={bubbleRef}
-            style={{ '--tooltip-x': `${position.x}px`, '--tooltip-y': `${position.y}px` }}
+            style={{
+              '--tooltip-x': `${position.x}px`,
+              '--tooltip-y': `${position.placement === 'below' ? position.bottom : position.top}px`,
+            }}
           >
             {label}
           </div>,

@@ -24,4 +24,16 @@
     border-top-color: var(--border-strong);
     transform: translateX(-50%);
   }
+
+  /* Flipped under a header-height anchor: bubble below, arrow pointing up. */
+  &.is-below {
+    transform: translate(-50%, var(--space-2));
+
+    &::after {
+      top: auto;
+      bottom: 100%;
+      border-top-color: transparent;
+      border-bottom-color: var(--border-strong);
+    }
+  }
 }

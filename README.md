@@ -2,7 +2,7 @@
 
 Build a palette of any length, from a rainbow sweep to a color harmony, get the lighter and darker ladder for every color in it, then export the whole set as CSS, SCSS, LESS, a Tailwind color object, JSON design tokens, an SVG sheet, or a PNG/JPG/WebP image.
 
-**[Live demo](https://adamculpepper.github.io/color-palette/)**
+**[Live demo](https://colorpalette.adamculpepper.net/)**
 
 ![Color Palette](docs/hero.png)
 

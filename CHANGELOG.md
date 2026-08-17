@@ -2,6 +2,11 @@
 
 The number here, in `package.json`, and in `src/data/version.js` are the same number; `npm run verify:exports` fails when they drift. A fix bumps the patch, a feature bumps the minor, and the bump lands in the same change as the work. This log was reconstructed retroactively when the rule was adopted, so the early entries carry the versions they should have carried at the time.
 
+## [1.1.2] - 2026-08-17
+
+- Tooltips flip below their trigger when there is no room above, so the Randomize tooltip is no longer cut off at the top of the page.
+- A light-mode reload no longer flashes the dark theme: a pre-paint boot script stamps the saved theme on the page before anything renders.
+
 ## [1.1.1] - 2026-08-16
 
 - Circle swatch shape renders true circles in both layouts. Step cells were wider than tall, so the old radius produced pills; circles now get equal sides, with the step dots at 72% of the base diameter and the corner badges pulled inside the curve.

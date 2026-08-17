@@ -9,6 +9,8 @@
       content="Generate color palettes of 2 to 24 colors, from rainbow sweeps to color harmonies, tune them until they feel like one family, preview every tint and shade, and export CSS, SCSS, LESS, Tailwind, JSON tokens, SVG, or images."
     />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <!-- Blocking on purpose: it must stamp the theme before the first paint. -->
+    <script src="./theme-boot.js"></script>
   </head>
   <body>
     <div id="root"></div>
