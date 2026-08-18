@@ -1,10 +1,36 @@
 .sidebar {
   grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: var(--bg-surface);
   border-right: 1px solid var(--border-default);
+
+  /* Sticky mirror of the toolbar: pinned to the panel's bottom edge, always in
+     view, with the sections scrolling beneath it. margin-top auto keeps it at
+     the bottom even when the sections do not fill the panel. */
+  .sidebar-credit {
+    position: sticky;
+    bottom: 0;
+    z-index: var(--z-sticky);
+    margin-top: auto;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+
+    a {
+      color: var(--accent-text);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
 
   .sidebar-toolbar {
     position: sticky;

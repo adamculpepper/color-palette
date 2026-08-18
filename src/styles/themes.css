@@ -7,27 +7,27 @@
    label sits on. --accent-text is a separate token from --accent for exactly
    that reason: the ring colour is not legible as body text at either end. */
 [data-theme="dark"] {
-  /* Backgrounds — a soft charcoal ramp, deliberately a notch up from black */
-  --bg-base: #17171f;
-  --bg-surface: #1f1f28;
-  --bg-elevated: #282833;
-  --bg-hover: #31313e;
-  --bg-active: #3c3c4b;
+  /* Backgrounds — a soft slate ramp, two deliberate notches up from black */
+  --bg-base: #20202a;
+  --bg-surface: #292934;
+  --bg-elevated: #33333f;
+  --bg-hover: #3d3d4b;
+  --bg-active: #484858;
 
   /* Borders */
-  --border-subtle: #31313d;
-  --border-default: #444453;
-  --border-strong: #626278;
+  --border-subtle: #3d3d4a;
+  --border-default: #515162;
+  --border-strong: #6f6f86;
 
   /* Text */
   --text-primary: #f2f2f7;
-  --text-secondary: #ababc2;
-  --text-tertiary: #9b9bb2;
-  --text-disabled: #5d5d68;
-  --text-inverse: #17171f;
+  --text-secondary: #bcbcd1;
+  --text-tertiary: #a8a8be;
+  --text-disabled: #67677a;
+  --text-inverse: #20202a;
 
   /* Accent as ink rather than as a surface */
-  --accent-text: #b1a1ff;
+  --accent-text: #c0b3ff;
 
   /* Status */
   --color-success: #4ade80;
@@ -35,11 +35,11 @@
   --color-error: #f87171;
 
   /* Stage backdrop the palette sits on */
-  --stage-bg: #1b1b24;
+  --stage-bg: #242430;
 
   /* Preview backgrounds (previewBackground param) */
-  --checker-base: #3a3a46;
-  --checker-square: #272731;
+  --checker-base: #464654;
+  --checker-square: #32323e;
 
   /* The ring that marks the base row. Light on dark grounds, and overridden per
      preview background where the ground flips. */
@@ -49,9 +49,9 @@
   --scrim: rgba(0, 0, 0, 0.62);
 
   /* Scrollbar */
-  --scrollbar-track: #1f1f28;
-  --scrollbar-thumb: #444453;
-  --scrollbar-thumb-hover: #626278;
+  --scrollbar-track: #292934;
+  --scrollbar-thumb: #515162;
+  --scrollbar-thumb-hover: #6f6f86;
 
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);

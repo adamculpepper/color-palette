@@ -2,6 +2,12 @@
 
 The number here, in `package.json`, and in `src/data/version.js` are the same number; `npm run verify:exports` fails when they drift. A fix bumps the patch, a feature bumps the minor, and the bump lands in the same change as the work. This log was reconstructed retroactively when the rule was adopted, so the early entries carry the versions they should have carried at the time.
 
+## [1.1.3] - 2026-08-18
+
+- Dark theme lightened another notch, from charcoal to a soft slate, with the text colors raised to hold 4.5:1 contrast on every surface.
+- "Built by Adam Culpepper" credit at the bottom of the control sidebar, linking to adamculpepper.net.
+- Hovered swatches in the first column no longer get their left edge shaved by the pinned step-label gutter; hovered cells now rise above the sticky chrome.
+
 ## [1.1.2] - 2026-08-17
 
 - Tooltips flip below their trigger when there is no room above, so the Randomize tooltip is no longer cut off at the top of the page.

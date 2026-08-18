@@ -64,7 +64,6 @@
 
   .step-cell:hover {
     transform: scale(1.04);
-    z-index: 1;
   }
 
   .step-cell:active {
@@ -279,6 +278,20 @@
     width: var(--step-size);
     height: var(--step-size);
     margin-inline: auto;
+  }
+
+  /* Hovered and focused cells rise above the sticky gutters, whose seam covers
+     otherwise shave the scaled edge or ring off the first column. A cell half
+     hidden by a pinned gutter pops fully visible while pointed at. Placed last
+     so it outranks the orientation blocks on source order. */
+  .step-cell:hover,
+  .step-cell:focus-visible {
+    z-index: calc(var(--z-sticky) + 3);
+  }
+
+  .swatch:hover,
+  .swatch:focus-within {
+    z-index: calc(var(--z-sticky) + 3);
   }
 }
 

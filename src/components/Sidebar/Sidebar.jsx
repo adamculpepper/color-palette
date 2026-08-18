@@ -130,6 +130,13 @@ export default function Sidebar({ isDrawer = false, open = false, onClose }) {
           </ControlSection>
         )
       })}
+
+      <div className="sidebar-credit">
+        Built by{' '}
+        <a href="https://adamculpepper.net" target="_blank" rel="noopener noreferrer">
+          Adam Culpepper
+        </a>
+      </div>
     </aside>
   )
 
