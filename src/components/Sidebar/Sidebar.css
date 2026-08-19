@@ -15,12 +15,17 @@
     position: sticky;
     bottom: 0;
     z-index: var(--z-sticky);
+    display: flex;
+    align-items: center;
     margin-top: auto;
-    padding: var(--space-3) var(--space-4);
+    /* Same height and padding as the stage footer beside it, so the two bottom
+       bars read as one strip rather than two that nearly line up. */
+    min-height: var(--footer-height);
+    padding: var(--space-1-5) var(--space-4);
     font-size: var(--font-size-xs);
     color: var(--text-tertiary);
     background: var(--bg-surface);
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid var(--border-default);
 
     a {
       color: var(--accent-text);

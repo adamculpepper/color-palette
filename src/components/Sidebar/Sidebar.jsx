@@ -131,11 +131,15 @@ export default function Sidebar({ isDrawer = false, open = false, onClose }) {
         )
       })}
 
+      {/* One child, so the inline space before the link survives the flex box
+          that centres it. */}
       <div className="sidebar-credit">
-        Built by{' '}
-        <a href="https://adamculpepper.net" target="_blank" rel="noopener noreferrer">
-          Adam Culpepper
-        </a>
+        <span>
+          Built by{' '}
+          <a href="https://adamculpepper.net" target="_blank" rel="noopener noreferrer">
+            Adam Culpepper
+          </a>
+        </span>
       </div>
     </aside>
   )

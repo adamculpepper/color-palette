@@ -51,7 +51,13 @@
   /* Layout */
   --header-height: 54px;
   --sidebar-width: 304px;
-  --footer-height: 44px;
+  /* The height of a standard button, which is what sets the height of any bar
+     that holds one. */
+  --control-height: 34px;
+  /* Both bottom bars derive their height from that button plus their own
+     padding and top border, so the sidebar credit and the stage footer stay
+     exactly level without either carrying a magic number. */
+  --footer-height: calc(var(--control-height) + (var(--space-1-5) * 2) + 1px);
 
   /* Z-layers. The drawer sits above the sticky header it slides out from and
      below the toast, so a copy confirmation still reads while it is open. */

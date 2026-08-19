@@ -2,6 +2,10 @@
 
 The number here, in `package.json`, and in `src/data/version.js` are the same number; `npm run verify:exports` fails when they drift. A fix bumps the patch, a feature bumps the minor, and the bump lands in the same change as the work. This log was reconstructed retroactively when the rule was adopted, so the early entries carry the versions they should have carried at the time.
 
+## [1.3.1] - 2026-08-18
+
+- The sidebar credit and the stage footer are the same height and line up as one strip. Both now derive their height from the button they hold rather than a fixed number, so they cannot drift apart again.
+
 ## [1.3.0] - 2026-08-18
 
 - 40 presets, five pages of eight, spanning deep and pale, loud and quiet, natural and synthetic. Every harmony mode now has a preset that shows it off.
