@@ -17,7 +17,7 @@ import { buildScale } from './scale.js'
 
 export const DEFAULT_PALETTE_SETTINGS = {
   count: 7,
-  harmony: 'spectrum',
+  harmony: 'spectral',
   startHue: 29,
   hueSpread: 281,
   direction: 'cw',

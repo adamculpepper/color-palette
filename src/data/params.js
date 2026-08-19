@@ -33,7 +33,7 @@ export const PARAM_REGISTRY = [
   // ---- Generator ----
   {
     key: 'harmony', group: 'Generator', type: 'select', label: 'Harmony',
-    default: 'spectrum',
+    default: 'spectral',
     options: [
       { value: 'spectrum', label: 'Spectrum (even sweep)' },
       { value: 'spectral', label: 'True rainbow (ROYGBIV)' },

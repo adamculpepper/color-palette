@@ -22,7 +22,8 @@ Everything in phase 1 is built and running in the app. Phase 2 is what was left 
 - [x] Harmony modes: spectrum, true rainbow, analogous, complementary, split complementary, triad, tetrad, monochrome
 - [x] True rainbow places the seven named spectral hues, so yellow is yellow rather than amber
 - [x] Other counts interpolate along the named path instead of drifting off it
-- [x] Spectrum is the default, and its output is byte-identical to the engine before harmony existed
+- [x] True rainbow is the default the app lands on; the even sweep is one click away as the Spectrum preset
+- [x] The even sweep's output is byte-identical to the engine before harmony existed
 - [x] Anchor modes place every color on fixed offsets from the start hue (180 / 150+210 / 120+240 / 90+180+270)
 - [x] Analogous caps the spread at 90 degrees and honors the slider below that
 - [x] Colors go round the anchors one at a time, so 7 over 3 anchors lands 3/2/2

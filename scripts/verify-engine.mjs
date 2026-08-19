@@ -19,7 +19,7 @@ import { normalizeHex, parseColorList } from '../src/lib/color/parse.js'
 import { contrastRatio, readableTextOn } from '../src/lib/color/contrast.js'
 import { harmonize } from '../src/lib/harmonize.js'
 import { hueName, sanitizeLabel, tokenScale } from '../src/lib/naming.js'
-import { buildPalette } from '../src/lib/palette.js'
+import { DEFAULT_PALETTE_SETTINGS, buildPalette } from '../src/lib/palette.js'
 import { distributeEvenly, reverseColors } from '../src/lib/paletteOps.js'
 import { ANALOGOUS_MAX_SPREAD, DEFAULT_START_HUE, HARMONY_OFFSETS, SWEEP_HARMONIES, PATH_HARMONIES, SPECTRAL_HUE_OFFSETS } from '../src/lib/rainbow.js'
 import { PARAM_BY_KEY, PARAM_REGISTRY } from '../src/data/params.js'
@@ -71,11 +71,13 @@ function nearestStop(colors, hue) {
   ), colors[0])
 }
 
-// 1. Default rainbow ---------------------------------------------------------
-section('1. Default 7-color rainbow')
+// 1. The even sweep ----------------------------------------------------------
+section('1. The even 7-color sweep')
 
 const REFERENCE_RAINBOW = ['#ec5b4b', '#e7aa4b', '#bce158', '#5ce2b8', '#54c9e6', '#4276e6', '#b25ce9']
-const defaultPalette = buildPalette({})
+// Asked for by name rather than taken from the defaults: the app now lands on
+// the true rainbow, but these are the numbers the even sweep has always made.
+const defaultPalette = buildPalette({ harmony: 'spectrum' })
 const defaultHexes = defaultPalette.colors.map((color) => color.hex)
 const defaultHues = defaultPalette.colors.map((color) => color.base.H)
 
@@ -245,7 +247,9 @@ const single = buildPalette({ count: 1 })
 console.log(`  count 1        ${single.colors.map((color) => color.hex).join(' ')}`)
 check('count 1 builds one usable color', single.colors.length === 1 && HEX_PATTERN.test(single.colors[0].hex))
 
-const wheel = buildPalette({ hueSpread: 360, count: 6 })
+// A full-circle span is a sweep behaviour, so it is asked for by name now that
+// the default harmony walks a fixed path and ignores the spread.
+const wheel = buildPalette({ harmony: 'spectrum', hueSpread: 360, count: 6 })
 const wheelHues = wheel.colors.map((color) => color.base.H)
 console.log(`  span 360       ${wheel.colors.map((color) => color.hex).join(' ')}`)
 check('span 360 keeps first and last distinct', wheel.colors[0].hex !== wheel.colors[5].hex)
@@ -583,8 +587,19 @@ check(
   defaultHexes.join(' '),
 )
 check(
-  'harmony defaults to spectrum',
-  bareRowFor({}).map((color) => color.hex).join() === bareRowFor({ harmony: 'spectrum' }).map((color) => color.hex).join(),
+  'the app lands on the true rainbow',
+  PARAM_BY_KEY.harmony.default === 'spectral'
+    && bareRowFor({}).map((color) => color.hex).join() === bareRowFor({ harmony: 'spectral' }).map((color) => color.hex).join(),
+  PARAM_BY_KEY.harmony.default,
+)
+check(
+  'the engine fallback and the registry default agree',
+  DEFAULT_PALETTE_SETTINGS.harmony === PARAM_BY_KEY.harmony.default,
+  `${DEFAULT_PALETTE_SETTINGS.harmony} / ${PARAM_BY_KEY.harmony.default}`,
+)
+check(
+  'landing on the page names the seven spectral colors',
+  bareRowFor({}).map((color) => color.name).join(' ') === 'red orange yellow green blue indigo violet',
 )
 check(
   'every registry harmony option is a mode the engine knows',

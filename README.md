@@ -8,7 +8,7 @@ Build a palette of any length, from a rainbow sweep to a color harmony, get the 
 
 ## What it does
 
-A normal rainbow is seven colors. This one runs from 2 to 24, spaced evenly across whatever arc of the color wheel you point it at. Every base color then gets a ladder of tints and shades in the percent step you choose, each row labeled lighter or darker. The default shows five 10% steps each way (77 swatches from seven colors); one slider runs it to the full nine, stopping 10% short of white and black.
+A normal rainbow is seven colors. This one runs from 2 to 24. It opens on the true spectrum, the seven named colors each on its own hue, and it can spread them evenly across whatever arc of the wheel you point it at instead. Every base color then gets a ladder of tints and shades in the percent step you choose, each row labeled lighter or darker. The default shows five 10% steps each way (77 swatches from seven colors); one slider runs it to the full nine, stopping 10% short of white and black.
 
 You can skip the generator entirely and paste your own colors instead. Both paths land in the same place: a row of base colors, a grid under and over it, and one set of adjustment sliders that pulls everything toward looking like a family. Unify, hue, temperature, saturation, lightness, contrast. Push them until it reads right, then export.
 
@@ -67,7 +67,7 @@ Pick one lightness, sweep the hue all the way around, and your yellow comes out 
 
 Natural lightness mode fixes this by giving every hue the lightness where that hue is at its most colorful on a screen. Red peaks around 63%, yellow around 97%, blue around 49%. The Lightness slider then flattens that curve toward one target, so you can sit anywhere between "true to how hues actually behave" and "everything at the same brightness". Flat mode is still there when you need identical lightness across a chart legend and can live with the mud.
 
-The default seven-color output: `#ec5c4d` `#e7aa4b` `#bde158` `#5de3b9` `#54cae6` `#4276e6` `#b25ce9`.
+The even sweep's seven-color output: `#ec5c4d` `#e7aa4b` `#bde158` `#5de3b9` `#54cae6` `#4276e6` `#b25ce9`. The true rainbow the app opens on: `#ec5c4d` `#ed8d44` `#dee05b` `#5ae467` `#4d9deb` `#6661e5` `#b25ce9`.
 
 ### Why an even rainbow has no yellow in it
 
