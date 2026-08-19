@@ -2,4 +2,4 @@
 // npm run verify:exports fails when the three drift, so a release cannot
 // ship with a stale header.
 export const APP_NAME = 'Color Palette'
-export const VERSION = '1.3.1'
+export const VERSION = '1.3.2'

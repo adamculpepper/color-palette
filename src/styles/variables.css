@@ -54,6 +54,9 @@
   /* The height of a standard button, which is what sets the height of any bar
      that holds one. */
   --control-height: 34px;
+  /* Both toolbars derive their height from the button they hold, so the
+     sidebar's Controls bar and the stage toolbar share one baseline. */
+  --toolbar-height: calc(var(--control-height) + (var(--space-3) * 2) + 1px);
   /* Both bottom bars derive their height from that button plus their own
      padding and top border, so the sidebar credit and the stage footer stay
      exactly level without either carrying a magic number. */
