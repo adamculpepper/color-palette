@@ -166,7 +166,8 @@ Everything in phase 1 is built and running in the app. Phase 2 is what was left 
 
 - [x] Vite 5 and React 18, plain JavaScript, co-located CSS
 - [x] `base: './'` so the GitHub Pages subpath build resolves its assets
-- [x] FontAwesome via npm behind one icon map, no CDN, no runtime requests
+- [x] FontAwesome via npm behind one icon map, no CDN for app code
+- [x] Google Analytics (gtag), the only outbound request the site makes
 - [x] `npm run verify:engine`: 116 checks on the color math
 - [x] `npm run verify:exports`: 83 checks on the 9 export formats
 - [x] GitHub Actions deploy to Pages on push to `master`
@@ -186,6 +187,5 @@ Everything in phase 1 is built and running in the app. Phase 2 is what was left 
 ## Out of scope
 
 - Accounts, saved cloud palettes, or any server
-- Analytics or usage counters
 - CMYK and print color spaces (this is a screen tool; sRGB is the target gamut)
 - Color-blindness simulation (worth a separate tool, not a slider here)

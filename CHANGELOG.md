@@ -2,6 +2,10 @@
 
 The number here, in `package.json`, and in `src/data/version.js` are the same number; `npm run verify:exports` fails when they drift. A fix bumps the patch, a feature bumps the minor, and the bump lands in the same change as the work. This log was reconstructed retroactively when the rule was adopted, so the early entries carry the versions they should have carried at the time.
 
+## [1.5.0] - 2026-08-18
+
+- Google Analytics (gtag) on the page. Palette data still never leaves the browser; this is the only outbound request the site makes, and the README says so rather than claiming there are none.
+
 ## [1.4.1] - 2026-08-18
 
 - The sidebar credit reads "Made by" rather than "Built by".

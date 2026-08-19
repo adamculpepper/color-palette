@@ -12,7 +12,7 @@ A normal rainbow is seven colors. This one runs from 2 to 24. It opens on the tr
 
 You can skip the generator entirely and paste your own colors instead. Both paths land in the same place: a row of base colors, a grid under and over it, and one set of adjustment sliders that pulls everything toward looking like a family. Unify, hue, temperature, saturation, lightness, contrast. Push them until it reads right, then export.
 
-Everything runs in the browser. Nothing is uploaded, and the app makes no network requests at runtime.
+Everything runs in the browser. Your colors stay on the page: nothing you generate, paste or export is sent anywhere. The site does load Google Analytics, which is the only outbound request it makes.
 
 ## Features
 
