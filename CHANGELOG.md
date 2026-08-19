@@ -2,6 +2,10 @@
 
 The number here, in `package.json`, and in `src/data/version.js` are the same number; `npm run verify:exports` fails when they drift. A fix bumps the patch, a feature bumps the minor, and the bump lands in the same change as the work. This log was reconstructed retroactively when the rule was adopted, so the early entries carry the versions they should have carried at the time.
 
+## [1.4.1] - 2026-08-18
+
+- The sidebar credit reads "Made by" rather than "Built by".
+
 ## [1.4.0] - 2026-08-18
 
 - The app opens on ROYGBIV, the true rainbow, rather than the even sweep. The even sweep is still one click away as the Spectrum preset, and still one option in the Harmony select.

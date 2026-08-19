@@ -135,7 +135,7 @@ export default function Sidebar({ isDrawer = false, open = false, onClose }) {
           that centres it. */}
       <div className="sidebar-credit">
         <span>
-          Built by{' '}
+          Made by{' '}
           <a href="https://adamculpepper.net" target="_blank" rel="noopener noreferrer">
             Adam Culpepper
           </a>
