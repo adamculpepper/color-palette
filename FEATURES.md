@@ -80,10 +80,11 @@ Everything in phase 1 is built and running in the app. Phase 2 is what was left 
 
 ### Presets
 
-- [x] 15 presets: ROYGBIV, Spectrum, Pastel, Neon, Earth, Retro 70s, Cyberpunk, Muted, Warm Sunset, Forest, Candy, Corporate, Duotone, Triad, Grayscale
+- [x] 40 presets across five pages, covering every harmony mode
 - [x] Each preset states its whole generator arc, harmony included, and its whole adjustment stack, so it cannot inherit a stray slider
 - [x] Applied over current settings: color count, steps, display, and naming survive
 - [x] Live CSS-gradient thumbnails, paginated eight to a page, following the active preset
+- [x] A fixture measures every preset against every other and fails on near-duplicates
 
 ### Naming and color units
 

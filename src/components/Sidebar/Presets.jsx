@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useApp } from '../../context/AppContext.jsx'
 import { getDefaults } from '../../data/params.js'
-import { PRESETS } from '../../data/presets.js'
+import { PRESETS, PRESETS_PER_PAGE } from '../../data/presets.js'
 import { buildPalette } from '../../lib/palette.js'
 import ControlSection from '../ControlSection/ControlSection.jsx'
 import Icon from '../Icon.jsx'
@@ -10,9 +10,8 @@ import './Presets.css'
 const PERCENT = 100
 const GRADIENT_PRECISION = 2
 
-// Four rows of two. The list grows over time and a sidebar that has to be
-// scrolled past its knobs to reach a preset is worse than a page turn.
-const PRESETS_PER_PAGE = 8
+// The list grows over time, and a sidebar that has to be scrolled past its
+// knobs to reach a preset is worse than a page turn.
 const PAGE_COUNT = Math.ceil(PRESETS.length / PRESETS_PER_PAGE)
 
 // Thumbnails run the real engine rather than a hand-written list of hexes, so a

@@ -2,6 +2,11 @@
 
 The number here, in `package.json`, and in `src/data/version.js` are the same number; `npm run verify:exports` fails when they drift. A fix bumps the patch, a feature bumps the minor, and the bump lands in the same change as the work. This log was reconstructed retroactively when the rule was adopted, so the early entries carry the versions they should have carried at the time.
 
+## [1.3.0] - 2026-08-18
+
+- 40 presets, five pages of eight, spanning deep and pale, loud and quiet, natural and synthetic. Every harmony mode now has a preset that shows it off.
+- The engine fixture measures every preset against every other one and fails if any two are near-duplicates, so the list cannot fill up with variations on the same palette as it grows.
+
 ## [1.2.0] - 2026-08-18
 
 - True rainbow harmony: a mode that places the colors on the seven named spectral hues instead of spacing them evenly, so yellow is really yellow rather than the amber an even sweep lands on. Other color counts interpolate along the same path.

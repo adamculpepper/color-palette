@@ -23,7 +23,7 @@ import { buildPalette } from '../src/lib/palette.js'
 import { distributeEvenly, reverseColors } from '../src/lib/paletteOps.js'
 import { ANALOGOUS_MAX_SPREAD, DEFAULT_START_HUE, HARMONY_OFFSETS, SWEEP_HARMONIES, PATH_HARMONIES, SPECTRAL_HUE_OFFSETS } from '../src/lib/rainbow.js'
 import { PARAM_BY_KEY, PARAM_REGISTRY } from '../src/data/params.js'
-import { PRESETS } from '../src/data/presets.js'
+import { PRESETS, PRESETS_PER_PAGE } from '../src/data/presets.js'
 import { coerceParamValue } from '../src/lib/stateCodec.js'
 
 const LIB_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'lib')
@@ -791,11 +791,56 @@ check(
   presetHarmonies.join(' '),
 )
 check(
-  'the named preset harmonies are the ones intended',
-  PRESETS.filter((preset) => preset.settings.harmony === 'spectral').map((preset) => preset.id).join() === 'roygbiv,neon'
-    && PRESETS.filter((preset) => !['spectrum', 'spectral'].includes(preset.settings.harmony))
-      .map((preset) => preset.settings.harmony).join() === 'complementary,triad',
+  'the true-rainbow presets are the ones intended',
+  PRESETS.filter((preset) => preset.settings.harmony === 'spectral').map((preset) => preset.id).join() === 'roygbiv,neon',
   presetHarmonies.join(' '),
+)
+check(
+  'the presets cover every harmony the engine offers',
+  PARAM_BY_KEY.harmony.options.every((option) => presetHarmonies.includes(option.value)),
+  [...new Set(presetHarmonies)].join(' '),
+)
+check(
+  'the pages divide evenly, so no page turn lands on a stray row',
+  PRESETS.length % PRESETS_PER_PAGE === 0,
+  `${PRESETS.length} presets, ${PRESETS.length / PRESETS_PER_PAGE} pages of ${PRESETS_PER_PAGE}`,
+)
+
+// A preset earns its slot by not being another preset. This is the check that
+// keeps the list honest as it grows: the floor is set by ROYGBIV against Neon,
+// which share their hues on purpose, so anything closer than that is a twin.
+const PRESET_DISTANCE_FLOOR = 0.05
+const presetPalettes = PRESETS.map((preset) => ({
+  label: preset.label,
+  colors: bareRowFor(preset.settings).map((color) => color.base),
+}))
+const toOklab = ({ L, C, H }) => {
+  const radians = (H * Math.PI) / 180
+  return [L, C * Math.cos(radians), C * Math.sin(radians)]
+}
+const paletteDistance = (a, b) => {
+  const shared = Math.min(a.length, b.length)
+  let total = 0
+  for (let index = 0; index < shared; index++) {
+    const [l1, a1, b1] = toOklab(a[index])
+    const [l2, a2, b2] = toOklab(b[index])
+    total += Math.hypot(l1 - l2, a1 - a2, b1 - b2)
+  }
+  return total / shared
+}
+let closestPair = { label: '', distance: Infinity }
+for (let i = 0; i < presetPalettes.length; i++) {
+  for (let j = i + 1; j < presetPalettes.length; j++) {
+    const distance = paletteDistance(presetPalettes[i].colors, presetPalettes[j].colors)
+    if (distance < closestPair.distance) {
+      closestPair = { label: `${presetPalettes[i].label} / ${presetPalettes[j].label}`, distance }
+    }
+  }
+}
+check(
+  'no two presets are near-duplicates of each other',
+  closestPair.distance >= PRESET_DISTANCE_FLOOR,
+  `closest is ${closestPair.label} at ${closestPair.distance.toFixed(3)}`,
 )
 check(
   'every preset builds a usable palette',
