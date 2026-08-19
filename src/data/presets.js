@@ -43,7 +43,11 @@ function preset(id, label, description, overrides) {
 }
 
 export const PRESETS = [
-  preset('roygbiv', 'ROYGBIV', 'The classic spectrum, red through violet', {}),
+  preset('roygbiv', 'ROYGBIV', 'The seven named colors, each on its own true hue', {
+    harmony: 'spectral',
+  }),
+
+  preset('spectrum', 'Spectrum', 'Hues spaced evenly around the arc, amber where yellow would sit', {}),
 
   preset('pastel', 'Pastel', 'High lightness, low chroma, tints that fade toward white', {
     lightness: 86,
@@ -53,7 +57,8 @@ export const PRESETS = [
     pastelTints: 24,
   }),
 
-  preset('neon', 'Neon', 'Every hue pushed to the edge of the sRGB gamut', {
+  preset('neon', 'Neon', 'The named colors pushed to the edge of the sRGB gamut', {
+    harmony: 'spectral',
     lightness: 74,
     saturation: 100,
     satScale: 138,

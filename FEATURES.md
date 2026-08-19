@@ -19,7 +19,9 @@ Everything in phase 1 is built and running in the app. Phase 2 is what was left 
 ### Generator
 
 - [x] 2 to 24 colors
-- [x] Harmony modes: spectrum, analogous, complementary, split complementary, triad, tetrad, monochrome
+- [x] Harmony modes: spectrum, true rainbow, analogous, complementary, split complementary, triad, tetrad, monochrome
+- [x] True rainbow places the seven named spectral hues, so yellow is yellow rather than amber
+- [x] Other counts interpolate along the named path instead of drifting off it
 - [x] Spectrum is the default, and its output is byte-identical to the engine before harmony existed
 - [x] Anchor modes place every color on fixed offsets from the start hue (180 / 150+210 / 120+240 / 90+180+270)
 - [x] Analogous caps the spread at 90 degrees and honors the slider below that
@@ -78,10 +80,10 @@ Everything in phase 1 is built and running in the app. Phase 2 is what was left 
 
 ### Presets
 
-- [x] 14 presets: ROYGBIV, Pastel, Neon, Earth, Retro 70s, Cyberpunk, Muted, Warm Sunset, Forest, Candy, Corporate, Duotone, Triad, Grayscale
+- [x] 15 presets: ROYGBIV, Spectrum, Pastel, Neon, Earth, Retro 70s, Cyberpunk, Muted, Warm Sunset, Forest, Candy, Corporate, Duotone, Triad, Grayscale
 - [x] Each preset states its whole generator arc, harmony included, and its whole adjustment stack, so it cannot inherit a stray slider
 - [x] Applied over current settings: color count, steps, display, and naming survive
-- [x] Live CSS-gradient thumbnails
+- [x] Live CSS-gradient thumbnails, paginated eight to a page, following the active preset
 
 ### Naming and color units
 

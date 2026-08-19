@@ -57,3 +57,27 @@
     color: var(--accent-text);
   }
 }
+
+/* Sits under the grid, mirroring its gutter, so the page turn reads as part of
+   the preset block rather than as another control. */
+.preset-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+
+  .pager-position {
+    min-width: 5ch;
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .button.is-icon-only {
+    width: 26px;
+    min-height: 26px;
+    padding: 0;
+  }
+}

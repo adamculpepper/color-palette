@@ -22,8 +22,12 @@ const isCustomPalette = (settings) => settings.paletteSource === 'custom'
 // Spectrum and analogous walk an arc of the wheel, so the arc knobs mean
 // something. The harmony modes place their colors on fixed anchors and never
 // read spread, direction or easing.
-const SWEEP_HARMONIES = new Set(['spectrum', 'analogous'])
-const isSweepHarmony = (settings) => SWEEP_HARMONIES.has(settings.harmony)
+const SPREAD_HARMONIES = new Set(['spectrum', 'analogous'])
+const PATH_HARMONIES = new Set(['spectrum', 'spectral', 'analogous'])
+// The spread slider only means something where the arc is the user's to set.
+const readsHueSpread = (settings) => SPREAD_HARMONIES.has(settings.harmony)
+// Direction and easing apply to anything that walks a path, named or swept.
+const walksHuePath = (settings) => PATH_HARMONIES.has(settings.harmony)
 
 export const PARAM_REGISTRY = [
   // ---- Generator ----
@@ -31,7 +35,8 @@ export const PARAM_REGISTRY = [
     key: 'harmony', group: 'Generator', type: 'select', label: 'Harmony',
     default: 'spectrum',
     options: [
-      { value: 'spectrum', label: 'Spectrum (rainbow sweep)' },
+      { value: 'spectrum', label: 'Spectrum (even sweep)' },
+      { value: 'spectral', label: 'True rainbow (ROYGBIV)' },
       { value: 'analogous', label: 'Analogous' },
       { value: 'complementary', label: 'Complementary' },
       { value: 'split', label: 'Split complementary' },
@@ -43,12 +48,12 @@ export const PARAM_REGISTRY = [
     // Weighted: a roll should still usually be a rainbow, and an anchor mode
     // should be the surprise rather than the norm.
     randomValues: [
-      'spectrum', 'spectrum', 'spectrum', 'spectrum',
+      'spectrum', 'spectrum', 'spectral', 'spectral',
       'analogous', 'analogous', 'analogous',
       'complementary', 'split', 'triad', 'tetrad', 'monochrome',
     ],
     disabledIf: isCustomPalette,
-    help: 'Spectrum sweeps an arc of the wheel. The rest place every color on a fixed set of hues measured from the start hue.',
+    help: 'Spectrum spaces the colors evenly along an arc. True rainbow puts them on the seven named spectral hues, so yellow is really yellow. The rest use the classic wheel relationships.',
   },
   {
     key: 'count', group: 'Generator', type: 'slider', label: 'Colors',
@@ -65,7 +70,7 @@ export const PARAM_REGISTRY = [
     key: 'hueSpread', group: 'Generator', type: 'slider', label: 'Hue spread',
     default: 281, min: 30, max: 360, step: 1, unit: '°',
     randomize: true, randomMin: 140, randomMax: 330,
-    disabledIf: isCustomPalette, showIf: isSweepHarmony,
+    disabledIf: isCustomPalette, showIf: readsHueSpread,
     help: 'How far around the wheel the rainbow travels. 360 wraps into a full color wheel. Analogous caps it at 90.',
   },
   {
@@ -75,7 +80,7 @@ export const PARAM_REGISTRY = [
       { value: 'cw', label: 'Clockwise' },
       { value: 'ccw', label: 'Counter-clockwise' },
     ],
-    randomize: true, disabledIf: isCustomPalette, showIf: isSweepHarmony,
+    randomize: true, disabledIf: isCustomPalette, showIf: walksHuePath,
   },
   {
     key: 'lightnessMode', group: 'Generator', type: 'select', label: 'Lightness mode',
@@ -128,7 +133,7 @@ export const PARAM_REGISTRY = [
       { value: 'easeOut', label: 'Ease out' },
       { value: 'easeInOut', label: 'Ease in and out' },
     ],
-    randomize: true, disabledIf: isCustomPalette, showIf: isSweepHarmony,
+    randomize: true, disabledIf: isCustomPalette, showIf: walksHuePath,
     help: 'Bunches the hue steps toward one end of the sweep instead of spacing them evenly.',
   },
   {

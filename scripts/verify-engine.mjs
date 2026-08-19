@@ -21,7 +21,7 @@ import { harmonize } from '../src/lib/harmonize.js'
 import { hueName, sanitizeLabel, tokenScale } from '../src/lib/naming.js'
 import { buildPalette } from '../src/lib/palette.js'
 import { distributeEvenly, reverseColors } from '../src/lib/paletteOps.js'
-import { ANALOGOUS_MAX_SPREAD, HARMONY_OFFSETS, SWEEP_HARMONIES } from '../src/lib/rainbow.js'
+import { ANALOGOUS_MAX_SPREAD, DEFAULT_START_HUE, HARMONY_OFFSETS, SWEEP_HARMONIES, PATH_HARMONIES, SPECTRAL_HUE_OFFSETS } from '../src/lib/rainbow.js'
 import { PARAM_BY_KEY, PARAM_REGISTRY } from '../src/data/params.js'
 import { PRESETS } from '../src/data/presets.js'
 import { coerceParamValue } from '../src/lib/stateCodec.js'
@@ -589,7 +589,7 @@ check(
 check(
   'every registry harmony option is a mode the engine knows',
   PARAM_BY_KEY.harmony.options.every((option) => (
-    SWEEP_HARMONIES.includes(option.value) || Boolean(HARMONY_OFFSETS[option.value])
+    PATH_HARMONIES.includes(option.value) || Boolean(HARMONY_OFFSETS[option.value])
   )),
   PARAM_BY_KEY.harmony.options.map((option) => option.value).join(' '),
 )
@@ -748,10 +748,10 @@ check(
 const rolls = PARAM_BY_KEY.harmony.randomValues
 const rollsFor = (harmony) => rolls.filter((value) => value === harmony).length
 check(
-  'randomize is weighted toward the sweeps',
+  'randomize is weighted toward the rainbows',
   PARAM_BY_KEY.harmony.randomize === true
-    && rolls.filter((value) => SWEEP_HARMONIES.includes(value)).length > rolls.length / 2
-    && SWEEP_HARMONIES.every((sweep) => anchorHarmonies.every((anchor) => rollsFor(sweep) > rollsFor(anchor)))
+    && rolls.filter((value) => PATH_HARMONIES.includes(value)).length > rolls.length / 2
+    && PATH_HARMONIES.every((path) => anchorHarmonies.every((anchor) => rollsFor(path) > rollsFor(anchor)))
     && anchorHarmonies.every((anchor) => rollsFor(anchor) > 0),
   rolls.join(' '),
 )
@@ -787,12 +787,15 @@ console.log(`  presets  ${PRESETS.length}: ${PRESETS.map((preset) => preset.labe
 check('every preset validates against the registry', presetProblems.length === 0, presetProblems.join('; '))
 check(
   'every preset spells out its harmony',
-  presetHarmonies.every(Boolean) && presetHarmonies.filter((harmony) => harmony === 'spectrum').length === PRESETS.length - 2,
+  presetHarmonies.every(Boolean),
   presetHarmonies.join(' '),
 )
 check(
-  'two presets use a harmony mode',
-  presetHarmonies.filter((harmony) => harmony !== 'spectrum').join() === 'complementary,triad',
+  'the named preset harmonies are the ones intended',
+  PRESETS.filter((preset) => preset.settings.harmony === 'spectral').map((preset) => preset.id).join() === 'roygbiv,neon'
+    && PRESETS.filter((preset) => !['spectrum', 'spectral'].includes(preset.settings.harmony))
+      .map((preset) => preset.settings.harmony).join() === 'complementary,triad',
+  presetHarmonies.join(' '),
 )
 check(
   'every preset builds a usable palette',
@@ -800,6 +803,76 @@ check(
     const built = buildPalette(preset.settings)
     return built.colors.length > 0 && built.colors.every((color) => HEX_PATTERN.test(color.hex))
   }),
+)
+
+// 13. True rainbow (spectral) ------------------------------------------------
+section('13. True rainbow lands on the named hues')
+
+// The whole point of the mode: an even sweep steps over yellow, this does not.
+const CANARY_HUE = hexToOklch('#ffff00').H
+const spectralRow = bareRowFor({ harmony: 'spectral' })
+const spectralHues = spectralRow.map((color) => color.base.H)
+const spectralNames = spectralRow.map((color) => color.name)
+console.log(`  hues   ${spectralHues.map((hue) => hue.toFixed(0)).join(', ')}`)
+console.log(`  names  ${spectralNames.join(' ')}`)
+console.log(`  hexes  ${spectralRow.map((color) => color.hex).join(' ')}`)
+
+check(
+  'seven colors land exactly on the named offsets',
+  spectralHues.every((hue, index) => Math.abs(hue - (DEFAULT_START_HUE + SPECTRAL_HUE_OFFSETS[index])) < 0.01),
+  spectralHues.map((hue) => hue.toFixed(1)).join(' '),
+)
+check(
+  'the yellow slot really is yellow, within a degree of #ffff00',
+  Math.abs(spectralHues[2] - CANARY_HUE) <= 1,
+  `${spectralHues[2].toFixed(1)} vs ${CANARY_HUE.toFixed(1)}`,
+)
+// The even sweep straddles yellow: its nearest stop sits ~13deg away, on lime.
+const sweepMissesYellowBy = Math.min(
+  ...bareRowFor({ harmony: 'spectrum' }).map((color) => Math.abs(color.base.H - CANARY_HUE)),
+)
+check(
+  'the even sweep leaves a visible gap at yellow that the named path closes',
+  sweepMissesYellowBy > 10 && Math.abs(spectralHues[2] - CANARY_HUE) < sweepMissesYellowBy / 10,
+  `sweep off by ${sweepMissesYellowBy.toFixed(1)}deg, named off by ${Math.abs(spectralHues[2] - CANARY_HUE).toFixed(1)}deg`,
+)
+check(
+  'the seven names read as the spectrum',
+  spectralNames.join(' ') === 'red orange yellow green blue indigo violet',
+  spectralNames.join(' '),
+)
+check(
+  'the ROYGBIV preset is the one that produces those names',
+  bareRowFor(PRESETS.find((preset) => preset.id === 'roygbiv').settings)
+    .map((color) => color.name).join(' ') === 'red orange yellow green blue indigo violet',
+)
+check(
+  'the Spectrum preset keeps the even sweep it inherited',
+  PRESETS.find((preset) => preset.id === 'spectrum').settings.harmony === 'spectrum',
+)
+
+// Other counts walk the same path rather than drifting off it.
+for (const count of [2, 3, 5, 12, 24]) {
+  const hues = bareRowFor({ harmony: 'spectral', count }).map((color) => color.base.H)
+  const spans = hues.every((hue, index) => index === 0 || hue > hues[index - 1])
+  check(
+    `count ${count} interpolates along the path without doubling back`,
+    spans
+      && Math.abs(hues[0] - DEFAULT_START_HUE) < 0.01
+      && Math.abs(hues[hues.length - 1] - (DEFAULT_START_HUE + SPECTRAL_HUE_OFFSETS[SPECTRAL_HUE_OFFSETS.length - 1])) < 0.01,
+    hues.map((hue) => hue.toFixed(0)).join(' '),
+  )
+}
+
+check(
+  'start hue rotates the whole path, keeping the spacing',
+  bareRowFor({ harmony: 'spectral', startHue: 100 }).map((color) => color.base.H)
+    .every((hue, index) => Math.abs(normalizeHue(hue) - normalizeHue(100 + SPECTRAL_HUE_OFFSETS[index])) < 0.01),
+)
+check(
+  'counter-clockwise mirrors the path',
+  bareRowFor({ harmony: 'spectral', direction: 'ccw' }).map((color) => color.base.H)
+    .every((hue, index) => Math.abs(normalizeHue(hue) - normalizeHue(DEFAULT_START_HUE - SPECTRAL_HUE_OFFSETS[index])) < 0.01),
 )
 
 // ---------------------------------------------------------------------------

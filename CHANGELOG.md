@@ -2,6 +2,13 @@
 
 The number here, in `package.json`, and in `src/data/version.js` are the same number; `npm run verify:exports` fails when they drift. A fix bumps the patch, a feature bumps the minor, and the bump lands in the same change as the work. This log was reconstructed retroactively when the rule was adopted, so the early entries carry the versions they should have carried at the time.
 
+## [1.2.0] - 2026-08-18
+
+- True rainbow harmony: a mode that places the colors on the seven named spectral hues instead of spacing them evenly, so yellow is really yellow rather than the amber an even sweep lands on. Other color counts interpolate along the same path.
+- ROYGBIV now uses it, which is what the name has always meant, and Neon does too.
+- New Spectrum preset keeps the evenly spaced sweep that ROYGBIV used to produce.
+- Presets are paginated, eight to a page, and the panel follows the active preset onto its page.
+
 ## [1.1.3] - 2026-08-18
 
 - Dark theme lightened another notch, from charcoal to a soft slate, with the text colors raised to hold 4.5:1 contrast on every surface.

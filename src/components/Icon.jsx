@@ -6,6 +6,8 @@ import {
   faArrowsLeftRightToLine,
   faCheck,
   faChevronDown,
+  faChevronLeft,
+  faChevronRight,
   faCircleInfo,
   faClone,
   faCopy,
@@ -34,6 +36,8 @@ import './Icon.css'
 // swapping a glyph is a single edit here, and nothing else imports an icon.
 const ICONS = {
   'chevron-down': faChevronDown,
+  'chevron-left': faChevronLeft,
+  'chevron-right': faChevronRight,
   'ellipsis-vertical': faEllipsisVertical,
   'grip-vertical': faGripVertical,
   check: faCheck,

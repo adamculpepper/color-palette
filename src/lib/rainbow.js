@@ -28,8 +28,16 @@ export const HARMONY_OFFSETS = {
   monochrome: [0],
 }
 
+// The seven named colors of the spectrum, as hue offsets from the start hue.
+// They are deliberately NOT evenly spaced: red sits 26deg from orange while
+// green sits 105deg from blue, which is why an even sweep steps straight over
+// yellow (110deg) and lands on amber and lime either side of it.
+export const SPECTRAL_HUE_OFFSETS = [0, 26, 81, 116, 221, 251, 281]
+
 export const SWEEP_HARMONIES = ['spectrum', 'analogous']
-export const HARMONY_NAMES = [...SWEEP_HARMONIES, ...Object.keys(HARMONY_OFFSETS)]
+// Every harmony that walks a hue path, so direction and easing mean something.
+export const PATH_HARMONIES = [...SWEEP_HARMONIES, 'spectral']
+export const HARMONY_NAMES = ['spectrum', 'spectral', 'analogous', ...Object.keys(HARMONY_OFFSETS)]
 
 // Analogous is the "neighbouring hues" harmony, so the arc is a fan rather than
 // a sweep. The spread slider is still honoured below this.
@@ -154,6 +162,33 @@ function anchorPlacements(stopCount, { startHue, harmony, lightness }) {
   return placements
 }
 
+// The named spectrum. Colors are sampled along the offset path rather than
+// across degrees, so a 7-color palette lands exactly on red, orange, yellow,
+// green, blue, indigo and violet, and any other count interpolates between the
+// named hues instead of drifting off them.
+function spectralPlacements(stopCount, { startHue, direction, hueEasing }) {
+  const ease = HUE_EASINGS[hueEasing] || HUE_EASINGS.linear
+  const sweepSign = direction === 'ccw' ? -1 : 1
+  const lastIndex = SPECTRAL_HUE_OFFSETS.length - 1
+
+  const placements = []
+  for (let index = 0; index < stopCount; index++) {
+    const position = stopCount === 1 ? 0 : ease(index / (stopCount - 1))
+    const scaled = position * lastIndex
+    const lower = Math.min(Math.floor(scaled), lastIndex)
+    const upper = Math.min(lower + 1, lastIndex)
+    const offset = SPECTRAL_HUE_OFFSETS[lower]
+      + (SPECTRAL_HUE_OFFSETS[upper] - SPECTRAL_HUE_OFFSETS[lower]) * (scaled - lower)
+
+    placements.push({
+      H: normalizeHue(startHue + sweepSign * offset),
+      lightnessOffset: 0,
+      chromaScale: 1,
+    })
+  }
+  return placements
+}
+
 export function generateRainbow({
   count = 7,
   startHue = DEFAULT_START_HUE,
@@ -178,7 +213,9 @@ export function generateRainbow({
 
   const placements = HARMONY_OFFSETS[harmony]
     ? anchorPlacements(stopCount, { startHue, harmony, lightness: lightnessSettings })
-    : sweepPlacements(stopCount, { startHue, hueSpread, direction, hueEasing, harmony })
+    : harmony === 'spectral'
+      ? spectralPlacements(stopCount, { startHue, direction, hueEasing })
+      : sweepPlacements(stopCount, { startHue, hueSpread, direction, hueEasing, harmony })
 
   const stops = placements.map(({ H, lightnessOffset, chromaScale }, index) => {
     const arcPosition = stopCount === 1 ? 0 : index / (stopCount - 1)

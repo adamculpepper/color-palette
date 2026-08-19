@@ -17,12 +17,12 @@ Everything runs in the browser. Nothing is uploaded, and the app makes no networ
 ## Features
 
 - **Generator.** 2 to 24 colors across a hue arc you set: start hue, spread, direction, plus easing if you want the colors bunched at one end of the sweep.
-- **Harmony modes.** Spectrum is the even hue sweep. Complementary, split complementary, triad, and tetrad drop the colors onto the classic wheel relationships instead, analogous keeps them inside a 90 degree fan, and monochrome runs one hue through a lightness ramp. The hue arc controls disappear on the modes that do not read them.
+- **Harmony modes.** Spectrum spaces the colors evenly along an arc, and True rainbow puts them on the seven named spectral hues so yellow lands on yellow. Complementary, split complementary, triad, and tetrad drop the colors onto the classic wheel relationships instead, analogous keeps them inside a 90 degree fan, and monochrome runs one hue through a lightness ramp. The hue arc controls disappear on the modes that do not read them.
 - **Natural lightness mode.** Each hue sits at the lightness where it is actually most colorful on a screen, with one knob to flatten that curve toward a single target. It is what keeps yellow from landing as mustard.
 - **Tint and shade grid.** Steps from 2% to 25%, up to nine of them each way (nine 10% steps runs the full ladder). Every step row is labeled with its percent and direction (lighter or darker). Zero steps collapses to the bare rainbow row.
 - **Custom palettes.** Paste hex or `rgb()` values in almost any messy format, edit a swatch by hex field, native color picker, or lightness/chroma/hue sliders, drag the base row to reorder. Sort by hue, reverse, and distribute evenly are one click each.
 - **Harmonize filters.** Unify converges hue and saturation together; separate dials handle hue shift, temperature, saturation, lightness, and contrast. Grays are held in place by default so a neutral in a pasted palette never drifts beige.
-- **14 presets.** ROYGBIV, Pastel, Neon, Earth, Retro 70s, Cyberpunk, Muted, Warm Sunset, Forest, Candy, Corporate, Duotone, Triad, Grayscale. A preset is a starting point merged over your current settings, not a mode you get stuck in, so your color count and step ladder survive the click.
+- **15 presets.** ROYGBIV, Spectrum, Pastel, Neon, Earth, Retro 70s, Cyberpunk, Muted, Warm Sunset, Forest, Candy, Corporate, Duotone, Triad, Grayscale. A preset is a starting point merged over your current settings, not a mode you get stuck in, so your color count and step ladder survive the click.
 - **8 color units.** hex, `rgb()`, `rgba()`, `hsl()`, `hsla()`, `hwb()`, `oklch()`, `oklab()`. One select drives the code exports, the swatch labels, and the editor readouts at the same time.
 - **Exports with a live preview.** Every code format shows its exact file content in the export dialog, rewritten as you change the palette, the unit, or the naming. Image formats show a rendered thumbnail at the scale, layout, and background you picked. Copy and download act on precisely what is on screen.
 - **Undo, redo, share links.** One slider drag is one undo entry, not thirty. The full configuration, custom colors included, is packed into the URL hash.
@@ -68,6 +68,12 @@ Pick one lightness, sweep the hue all the way around, and your yellow comes out 
 Natural lightness mode fixes this by giving every hue the lightness where that hue is at its most colorful on a screen. Red peaks around 63%, yellow around 97%, blue around 49%. The Lightness slider then flattens that curve toward one target, so you can sit anywhere between "true to how hues actually behave" and "everything at the same brightness". Flat mode is still there when you need identical lightness across a chart legend and can live with the mud.
 
 The default seven-color output: `#ec5c4d` `#e7aa4b` `#bde158` `#5de3b9` `#54cae6` `#4276e6` `#b25ce9`.
+
+### Why an even rainbow has no yellow in it
+
+The seven named colors are not evenly spaced around the wheel. Red sits 26 degrees from orange, but green sits 105 degrees from blue. Space seven colors evenly across the same span and they land on 29, 76, 123 and so on, stepping straight over yellow at 110 and dropping amber and lime either side of it. That is why an even sweep has no canary yellow in it, and why the app names those two colors amber and lime rather than pretending otherwise.
+
+True rainbow walks the named hues instead of even degrees, so the yellow slot is really yellow. Counts other than seven interpolate along that same path, so a 12-color palette still passes through yellow on its way.
 
 ### What the harmony modes do
 
